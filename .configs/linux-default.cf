@@ -1,0 +1,75 @@
+# PREFIXES AND EXTENSIONS
+EC := .ec
+S := .sym
+I := .imp
+B := .bowl
+C := .c
+O := .o
+A := .a
+SO := .$(if $(WINDOWS_TARGET),dll,$(if $(OSX_TARGET),dylib,so))
+E := $(if $(WINDOWS_TARGET),.exe,)
+OUT := $(if $(STATIC_LIBRARY_TARGET),$(A),$(if $(SHARED_LIBRARY_TARGET),$(SO)$(VER),$(if $(EXECUTABLE_TARGET),$(E),.x)))
+LP := $(if $(WINDOWS_TARGET),$(if $(STATIC_LIBRARY_TARGET),lib,),lib)
+HOST_E := $(if $(WINDOWS_HOST),.exe,)
+HOST_SO := $(if $(WINDOWS_HOST),.dll,$(if $(OSX_HOST),.dylib,.so))
+HOST_LP := $(if $(WINDOWS_HOST),$(if $(STATIC_LIBRARY_TARGET),lib,),lib)
+.SUFFIXES: .c .ec .sym .imp .bowl $(O) $(A)
+# TOOLCHAIN
+
+# OPTIONS
+
+# EXTENSIONS
+OUT := $(if $(STATIC_LIBRARY_TARGET),$(A),$(if $(SHARED_LIBRARY_TARGET),$(SO)$(VER),$(if $(EXECUTABLE_TARGET),$(E),.x)))
+CPP := $(CCACHE_COMPILE)$(DISTCC_COMPILE)$(GCC_PREFIX)gcc$(_SYSROOT)
+CC := $(CCACHE_COMPILE)$(DISTCC_COMPILE)$(GCC_PREFIX)gcc$(_SYSROOT)$(if $(GCC_CC_FLAGS),$(space)$(GCC_CC_FLAGS),)
+CXX := $(CCACHE_COMPILE)$(DISTCC_COMPILE)$(GCC_PREFIX)g++$(_SYSROOT)$(if $(GCC_CXX_FLAGS),$(space)$(GCC_CXX_FLAGS),)
+ECP := $(if $(ECP_DEBUG),ecere-ide -debug-start "$(ECERE_SDK_SRC)/compiler/ecp/ecp.epj" -debug-work-dir "${CURDIR}" -@,ecp)$(if $(GCC_CC_FLAGS),$(space)$(GCC_CC_FLAGS),)
+ECC := $(if $(ECC_DEBUG),ecere-ide -debug-start "$(ECERE_SDK_SRC)/compiler/ecc/ecc.epj" -debug-work-dir "${CURDIR}" -@,ecc)$(if $(CROSS_TARGET), -t $(TARGET_PLATFORM),)$(if $(GCC_CC_FLAGS),$(space)$(GCC_CC_FLAGS),)
+ECS := $(if $(ECS_DEBUG),ecere-ide -debug-start "$(ECERE_SDK_SRC)/compiler/ecs/ecs.epj" -debug-work-dir "${CURDIR}" -@,ecs)$(if $(CROSS_TARGET), -t $(TARGET_PLATFORM),)$(if $(OUTPUT_POT), -outputpot,)$(if $(DISABLED_POOLING), -disabled-pooling,)
+EAR := ear
+AS := $(GCC_PREFIX)as
+LD := $(if $(CONTAINS_CXX),$(CXX),$(CC))$(_SYSROOT)$(if $(GCC_LD_FLAGS),$(space)$(GCC_LD_FLAGS),)
+AR := $(GCC_PREFIX)ar
+STRIP := $(GCC_PREFIX)strip
+ifdef WINDOWS_TARGET
+WINDRES := $(GCC_PREFIX)windres
+ ifdef ARCH
+  ifeq ($(ARCH),x32)
+WINDRES_FLAGS := -F pe-i386
+  else
+   ifeq ($(ARCH),x64)
+WINDRES_FLAGS := -F pe-x86-64
+   endif
+  endif
+ endif
+endif
+UPX := upx
+
+UPXFLAGS = -9
+
+EARFLAGS = 
+
+ifndef ARCH
+TARGET_ARCH :=$(shell $(CC) -dumpmachine)
+ ifdef WINDOWS_HOST
+  ifneq ($(filter x86_64%,$(TARGET_ARCH)),)
+     TARGET_ARCH := x86_64
+  else
+     TARGET_ARCH := i386
+  endif
+ endif
+endif
+
+# HARD CODED TARGET_PLATFORM-SPECIFIC OPTIONS
+LDFLAGS +=$(if $(LINUX_TARGET), -Wl$(comma)--no-undefined,)
+
+LDFLAGS +=$(if $(OSX_TARGET), -framework cocoa -framework OpenGL,)
+
+CFLAGS += -fmessage-length=0
+
+
+OFLAGS += $(LDFLAGS)
+ifdef ARCH_FLAGS
+CFLAGS += $(ARCH_FLAGS)
+OFLAGS += $(ARCH_FLAGS)
+endif

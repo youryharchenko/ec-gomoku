@@ -1,0 +1,44 @@
+{
+   "Version" : 0.2,
+   "ModuleName" : "ec-gomoku",
+   "Options" : {
+      "Warnings" : "All",
+      "TargetType" : "Executable",
+      "TargetFileName" : "ec-gomoku",
+      "Libraries" : [
+         "ecere"
+      ]
+   },
+   "Configurations" : [
+      {
+         "Name" : "Debug",
+         "Options" : {
+            "Debug" : true,
+            "Optimization" : "None",
+            "PreprocessorDefinitions" : [
+               "_DEBUG"
+            ],
+            "FastMath" : false
+         }
+      },
+      {
+         "Name" : "Release",
+         "Options" : {
+            "Debug" : false,
+            "Optimization" : "Speed",
+            "FastMath" : true
+         }
+      }
+   ],
+   "Files" : [
+      "gomoku.ec",
+      "game.ec"
+   ],
+   "ResourcesPath" : "",
+   "Resources" : [
+      "res/Black.png",
+      "res/Gomoku.png",
+      "res/Empty.png",
+      "res/White.png"
+   ]
+}

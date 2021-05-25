@@ -1,0 +1,57 @@
+{
+   format = "Ecere IDE Workspace File",
+   version = "0.1",
+   workspace = {
+      activeCompiler = "Default",
+      bitDepth = 0,
+      addedProjects = [
+         {
+            path = "ec-gomoku.epj",
+            activeConfig = "Debug"
+         }
+      ],
+      openedFiles = [
+         {
+            path = "game.ec",
+            state = opened,
+            lineNumber = 415,
+            position = 25,
+            scroll = {
+               x = 0,
+               y = 10050
+            },
+            modified = "Tue May 25 12:36:42 PM 2021"
+         },
+         {
+            path = "gomoku.ec",
+            state = opened,
+            lineNumber = 44,
+            position = 44,
+            scroll = {
+               x = 0,
+               y = 950
+            },
+            modified = "Tue May 25 12:36:42 PM 2021"
+         },
+         {
+            path = "obj/debug.linux/gomoku.c",
+            state = closed,
+            lineNumber = 0,
+            position = 0,
+            scroll = {
+               x = 0,
+               y = 0
+            },
+            modified = "Sun May  2  6:21:41 PM 2021"
+         }
+      ],
+      recentFiles = [
+         "/home/next/Projects/ecere/ec-gomoku/game.ec",
+         "/home/next/Projects/ecere/ec-gomoku/gomoku.ec",
+         "/home/next/Projects/ecere/ec-gomoku/res/Computer.png",
+         "/home/next/Projects/ecere/ec-gomoku/obj/debug.linux/gomoku.c"
+      ],
+      vgLeakCheck = summary,
+      vgRedzoneSize = -1
+   }
+}
